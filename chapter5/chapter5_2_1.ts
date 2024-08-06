@@ -1,4 +1,5 @@
-// 型Aと型Bがあるとき、次の両方の条件が満たされることでサブタイプとしてみなされる
+// オブジェクト型
+// 型Aと型Bがあるとき、次の両方の条件が満たされることで型Bが型Aのサブタイプとしてみなされる(B <: A)
 // ・型Aに存在するすべてのプロパティが型Bにも存在する
 // ・型Bの各プロパティの型が、対応する型Aのプロパティの型のサブタイプである
 
@@ -7,6 +8,7 @@ const chapter5_2_1 = () => {
     name: string;
     age: number;
   }
+  // 型A
   let person: Person;
 
   let john = {
@@ -15,9 +17,11 @@ const chapter5_2_1 = () => {
     gender: "male",
   };
 
+  // 型B
   // johnはPerson型にはないgenderプロパティを持っているが、Person型にあるnameとage両方のプロパティを持っているためサブタイプとして認識される
   person = john;
 
+  // 型B
   let jane = {
     name: "John",
     age: "25",
@@ -29,6 +33,7 @@ const chapter5_2_1 = () => {
   //   型 'string' を型 'number' に割り当てることはできません。ts(2322)
   // person = jane;
 
+  // 型B
   let alice = {
     name: "Alice",
   };
