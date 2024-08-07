@@ -1,5 +1,5 @@
 // 型の拡大
-const chapter5_2_3 = () => {
+const chapter5_3 = () => {
   function fn1() {
     let x; // 型指定をしないとany型に型推論される
     // any型なのでどんな値でも入ってしまう
