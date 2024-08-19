@@ -151,4 +151,47 @@ const chapter7_2_2 = () => {
   personInfo.greet();
 };
 
-chapter7_2_2();
+// デコレータの実行タイミング
+const chapter7_2_3 = () => {
+  function A() {
+    console.log("A ファクトリ 評価");
+    return function (originalMethod: any, context: any) {
+      console.log("A デコレータ 呼び出し");
+    };
+  }
+
+  function B() {
+    console.log("B ファクトリ 評価");
+    return function (originalMethod: any, context: any) {
+      console.log("B デコレータ 呼び出し");
+    };
+  }
+
+  function C(originalMethod: any, context: any) {
+    console.log("C デコレータ 呼び出し");
+  }
+
+  // A ファクトリ 評価
+  // B ファクトリ 評価
+  // B ファクトリ 評価
+  // A ファクトリ 評価
+  // C デコレータ 呼び出し
+  // B デコレータ 呼び出し
+  // A デコレータ 呼び出し
+  // A デコレータ 呼び出し
+  // B デコレータ 呼び出し
+  // C デコレータ 呼び出し
+  // 上から順番に式だけが評価され、下から順番に実行される
+  // 評価や実行はクラスのインスタンス化やメソッドの呼び出し時ではなく、クラスやメソッドが宣言されたとき
+  class ExampleClass {
+    @A()
+    @B()
+    @C
+    method() {}
+
+    @C
+    @B()
+    @A()
+    method2() {}
+  }
+};
