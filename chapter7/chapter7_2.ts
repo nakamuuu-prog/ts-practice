@@ -195,3 +195,89 @@ const chapter7_2_3 = () => {
     method2() {}
   }
 };
+
+// メソッドデコレータと型
+const chapter7_2_4 = () => {
+  // デコレータの型に含まれる主な型情報
+  type Decorator = (
+    // targetは対象のクラス、または関数
+    target: Input,
+    // contextは対象のクラス、または関数に関する情報
+    context: {
+      kind: string;
+      name: string | symbol;
+      access: {
+        has?(target: unknown): boolean;
+        get?(target: unknown): unknown;
+        set?(target: unknown, value: unknown): void;
+      };
+      private?: boolean;
+      static?: boolean;
+      addInitializer?(initializer: () => void): void;
+    }
+  ) => Output | void;
+  type Input = {}; // 仮(エラー回避のため)
+  type Output = {}; // 仮(エラー回避のため)
+
+  // any型にしていたデコレータの引数に型をつける
+  // This, Args, Returnの型パラメータを実装
+  // This：デコレータを実装したクラス、関数の型
+  // Args：引数はanyの配列の拡張として指定することで、任意の型の引数の配列を受け取れるようにする
+  // Return：メソッドの戻り値の型
+  function logged<This, Args extends any[], Return>(
+    // 第一引数はthisとargs(引数)を受け取り、戻り値を返す関数型にすることで、クラスのメンバーに適用したときにエラーが発生するようにしておく
+    originalMethod: (this: This, ...args: Args) => Return,
+    // contextはTypeScriptに組み込まれたClassMethodDecoratorContextを使う
+    context: ClassMethodDecoratorContext<
+      This,
+      (this: This, ...args: Args) => Return
+    >
+  ) {
+    function loggedMethod(this: This, ...args: Args) {
+      // nameはsymbolである可能性があるため、toStringでエラーを回避
+      console.log(`${context.name.toString()} メソッド呼び出し！`);
+      const result = originalMethod.call(this, ...args);
+      console.log(`${context.name.toString()} メソッド終了！`);
+      return result;
+    }
+    return loggedMethod;
+  }
+
+  // ClassMethodDecoratorContextの中身
+  // interface ClassMethodDecoratorContext<
+  //   This = unknown, // メソッドが定義されるクラスの型
+  //   // デコレート対象メソッドの型
+  //   Value extends (this: This, ...args: any) => any = (
+  //     this: This,
+  //     ...args: any
+  //   ) => any
+  // > {
+  //   readonly kind: "method"; // デコレータされたクラスメンバーの種類
+  //   readonly name: string | symbol; // デコレートされたメンバーの名前
+  //   readonly static: boolean; // 静的なメンバーかどうか
+  //   readonly private: boolean; // プライベートなメンバーかどうか
+  //   readonly access: {
+  //     has(object: This): boolean; // オブジェクトのプロパティに、デコレート対象と同じ名前のものが存在するか
+  //     get(object: This): Value; // デコレータが適用されたメンバーの現在の値を取得するために使用
+  //   };
+  //   addInitializer(initializer: (this: This) => void): void;
+  //   readonly metadata: DecoratorMetadata; // なんか増えてる。本書では触れられてないので一旦スルー
+  // }
+
+  // 型を指定したため、関数以外に適用するとエラーが発生
+  // これによって型の安全が保証される
+  // 式として呼び出される場合、クラス デコレーターのシグネチャを解決できません。
+  //   型 'typeof Test' の引数を型 '(this: typeof Test, ...args: any[]) => unknown' のパラメーターに割り当てることはできません。
+  //     型 'typeof Test' にはシグネチャ '(this: typeof Test, ...args: any[]): unknown' に一致するものがありません。ts(1238)
+  // デコレーター関数の戻り値の型 '(this: typeof Test, ...args: any[]) => unknown' は、型 'void | typeof Test' に割り当てられません。ts(1270)
+  // @logged
+  class Test {
+    // @logged
+    member: string = "member";
+
+    @logged
+    method() {}
+  }
+
+  // デコレータの型は非常に複雑なので、型安全性をどこまで担保する必要があるか適宜検討する必要がある
+};
