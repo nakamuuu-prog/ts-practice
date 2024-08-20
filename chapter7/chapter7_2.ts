@@ -281,3 +281,38 @@ const chapter7_2_4 = () => {
 
   // デコレータの型は非常に複雑なので、型安全性をどこまで担保する必要があるか適宜検討する必要がある
 };
+
+// 引数を複数追加してみる
+const chapter7_2_4_test = () => {
+  function logged<This, Args extends any[], Return>(
+    originalMethod: (this: This, ...args: Args) => Return,
+    context: ClassMethodDecoratorContext<
+      This,
+      (this: This, ...args: Args) => Return
+    >
+  ) {
+    function loggedMethod(this: This, ...args: Args) {
+      console.log(`${context.name.toString()} メソッド呼び出し！`);
+      console.log(args);
+      const result = originalMethod.call(this, ...args);
+      console.log(`${context.name.toString()} メソッド終了！`);
+      return result;
+    }
+    return loggedMethod;
+  }
+
+  class Test {
+    member: string = "member";
+
+    @logged
+    method(str: string, num: number, bool: boolean) {}
+  }
+
+  const test = new Test();
+  // method メソッド呼び出し！
+  // [ '文字列', 2, false ]
+  // method メソッド終了！
+  test.method("文字列", 2, false);
+};
+
+chapter7_2_4_test();
