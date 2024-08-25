@@ -1,0 +1,18 @@
+{
+  "name": "ts-practice",
+  "version": "1.0.0",
+  "description": "AD   書籍「[現場で使える TypeScript 詳解実践ガイド](https://amzn.to/4dhLaho)」の学習用   プリミティブ型など基本的な型、理解している箇所は読み飛ばす。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.7"
+  }
+}
