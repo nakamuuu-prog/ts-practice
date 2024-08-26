@@ -2,6 +2,25 @@
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
+    // outDirはコンパイルされたJSファイルを出力するディレクトリを指定する
+    "outDir": "./dist" /* Specify an output folder for all emitted files. */,
+    // targetは変換されたJSのターゲットバージョン
+    "target": "ES2022" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
+    // sourceMapをtrueにするとコンパイルされたJSファイルとおなじ場所に「.js.map」というソースマップファイルが生成される
+    // ソースマップを利用することで圧縮や最適化を行なったあとのコードでも、元のTSファイルと直接関連づけてデバッグが可能になる
+    // デバッグを効率化したいときや本番環境での問題解析を行いたいときに有効
+    "sourceMap": true /* Create source map files for emitted JavaScript files. */,
+    // declarationをtrueにするとコンパイルされたJSファイルと同じ場所に宣言ファイル(.d.ts)が生成される
+    "declaration": true /* Generate .d.ts files from TypeScript and JavaScript files in your project. */,
+    // declarationMapをtrueにすると生成された宣言ファイルに対してソースマップが生成される
+    // ソースマップを生成することで「定義へ移動」や「定義を表示」のようなアクションを使って、対応する元のTSの該当箇所にジャンプできるようになる
+    "declarationMap": true /* Create sourcemaps for d.ts files. */,
+    // noEmitOnErrorをtrueにするとエラーが検出された場合に、ファイル出力が行われなくなる
+    // エラーを含むコードが誤ってプロダクション環境にでデプロイされることを防ぐことができる
+    "noEmitOnError": true /* Disable emitting files if any type checking errors are reported. */,
+    // noEmitをtrueにするとファイルを一切行わないようにできる
+    // TSを型チェック専用ツールとして使用する場合や、.jsファイルの生成をBabelのような他のツールに任せたい場合に使用する
+    "noEmit": false /* Disable emitting files from a compilation. */,
 
     /* Projects */
     // "incremental": true,                              /* Save .tsbuildinfo files to allow for incremental compilation of projects. */
@@ -12,8 +31,6 @@
     // "disableReferencedProjectLoad": true,             /* Reduce the number of projects loaded automatically by TypeScript. */
 
     /* Language and Environment */
-    // targetは変換されたJSのターゲットバージョン
-    "target": "ES2022" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
     // "lib": [],                                        /* Specify a set of bundled library declaration files that describe the target runtime environment. */
     // "jsx": "preserve",                                /* Specify what JSX code is generated. */
     // "experimentalDecorators": true,                   /* Enable experimental support for legacy experimental decorators. */
@@ -51,16 +68,10 @@
     // "maxNodeModuleJsDepth": 1,                        /* Specify the maximum folder depth used for checking JavaScript files from 'node_modules'. Only applicable with 'allowJs'. */
 
     /* Emit */
-    // "declaration": true,                              /* Generate .d.ts files from TypeScript and JavaScript files in your project. */
-    // "declarationMap": true,                           /* Create sourcemaps for d.ts files. */
     // "emitDeclarationOnly": true,                      /* Only output d.ts files and not JavaScript files. */
-    // "sourceMap": true,                                /* Create source map files for emitted JavaScript files. */
     // "inlineSourceMap": true,                          /* Include sourcemap files inside the emitted JavaScript. */
     // "outFile": "./",                                  /* Specify a file that bundles all outputs into one JavaScript file. If 'declaration' is true, also designates a file that bundles all .d.ts output. */
-    // outDirはコンパイルされたJSファイルを出力するディレクトリを指定する
-    "outDir": "./dist" /* Specify an output folder for all emitted files. */,
     // "removeComments": true,                           /* Disable emitting comments. */
-    // "noEmit": true,                                   /* Disable emitting files from a compilation. */
     // "importHelpers": true,                            /* Allow importing helper functions from tslib once per project, instead of including them per-file. */
     // "downlevelIteration": true,                       /* Emit more compliant, but verbose and less performant JavaScript for iteration. */
     // "sourceRoot": "",                                 /* Specify the root path for debuggers to find the reference source code. */
@@ -70,7 +81,6 @@
     // "newLine": "crlf",                                /* Set the newline character for emitting files. */
     // "stripInternal": true,                            /* Disable emitting declarations that have '@internal' in their JSDoc comments. */
     // "noEmitHelpers": true,                            /* Disable generating custom helper functions like '__extends' in compiled output. */
-    // "noEmitOnError": true,                            /* Disable emitting files if any type checking errors are reported. */
     // "preserveConstEnums": true,                       /* Disable erasing 'const enum' declarations in generated code. */
     // "declarationDir": "./",                           /* Specify the output directory for generated declaration files. */
 
@@ -108,5 +118,14 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
-  "include": ["./src/**/*.ts"]
+  // コンパイルするファイルやディレクトリを絞り込むにはincludeオプションを指定する
+  // 他の設定はcompilerOptions内に記載しているが、includeオプションはトップレベルに書く必要がある
+  // ワイルドカードを使用したパターン指定も可能
+  // *：0個以上の文字にマッチ
+  // ?：任意の1文字にマッチ
+  // **：任意の階層にネストされたすべてのディレクトリにマッチ
+  // 以下の設定は「srcディレクトリ以下のあらゆる階層にあるすべての.tsファイル」がコンパイルの対象になる
+  "include": ["./src/**/*.ts"],
+  // excludeを使うとincludeで指定したファイルの内、コンパイルを除外したいファイルを指定することができる
+  "exclude": ["src/sub/moduleA.ts"]
 }
