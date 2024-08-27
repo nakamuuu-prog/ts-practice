@@ -4,23 +4,38 @@
     /* Visit https://aka.ms/tsconfig to read more about this file */
     // outDirはコンパイルされたJSファイルを出力するディレクトリを指定する
     "outDir": "./dist" /* Specify an output folder for all emitted files. */,
+
     // targetは変換されたJSのターゲットバージョン
     "target": "ES2022" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
+
     // sourceMapをtrueにするとコンパイルされたJSファイルとおなじ場所に「.js.map」というソースマップファイルが生成される
     // ソースマップを利用することで圧縮や最適化を行なったあとのコードでも、元のTSファイルと直接関連づけてデバッグが可能になる
     // デバッグを効率化したいときや本番環境での問題解析を行いたいときに有効
     "sourceMap": true /* Create source map files for emitted JavaScript files. */,
+
     // declarationをtrueにするとコンパイルされたJSファイルと同じ場所に宣言ファイル(.d.ts)が生成される
     "declaration": true /* Generate .d.ts files from TypeScript and JavaScript files in your project. */,
+
     // declarationMapをtrueにすると生成された宣言ファイルに対してソースマップが生成される
     // ソースマップを生成することで「定義へ移動」や「定義を表示」のようなアクションを使って、対応する元のTSの該当箇所にジャンプできるようになる
     "declarationMap": true /* Create sourcemaps for d.ts files. */,
+
     // noEmitOnErrorをtrueにするとエラーが検出された場合に、ファイル出力が行われなくなる
     // エラーを含むコードが誤ってプロダクション環境にでデプロイされることを防ぐことができる
     "noEmitOnError": true /* Disable emitting files if any type checking errors are reported. */,
+
     // noEmitをtrueにするとファイルを一切行わないようにできる
     // TSを型チェック専用ツールとして使用する場合や、.jsファイルの生成をBabelのような他のツールに任せたい場合に使用する
     "noEmit": false /* Disable emitting files from a compilation. */,
+
+    // NOTE:chapter9_8
+    // ES ModulesとCommonJSの違いやimportとrequireの基礎的な考え方がわかってないので、このオプションの役割がいまいち理解できない
+    // 書籍とは別で深掘りする
+    "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
+
+    // allowSyntheticDefaultImportsはインポート対象のモジュールがデフォルトエクスポートを明示的に指定していない場合でも、デフォルトインポート構文を使用できるようにするためのもの
+    // esModuleInteropがtrueになるとallowSyntheticDefaultImportsも自動的にtrueになる
+    "allowSyntheticDefaultImports": true /* Allow 'import x from y' when a module doesn't have a default export. */,
 
     /* Projects */
     // "incremental": true,                              /* Save .tsbuildinfo files to allow for incremental compilation of projects. */
@@ -88,8 +103,6 @@
     // "isolatedModules": true,                          /* Ensure that each file can be safely transpiled without relying on other imports. */
     // "verbatimModuleSyntax": true,                     /* Do not transform or elide any imports or exports not marked as type-only, ensuring they are written in the output file's format based on the 'module' setting. */
     // "isolatedDeclarations": true,                     /* Require sufficient annotation on exports so other tools can trivially generate declaration files. */
-    // "allowSyntheticDefaultImports": true,             /* Allow 'import x from y' when a module doesn't have a default export. */
-    "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
     // "preserveSymlinks": true,                         /* Disable resolving symlinks to their realpath. This correlates to the same flag in node. */
     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
 
